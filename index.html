@@ -3,158 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Builder</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="responsive.css">
+    <title>Resume Form</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
 </head>
-<body id="body">
-<main id="main">
-<div id="resume">
-<div class="left">
-    <div class="resPfp">
-  <div id="img_container">
-    <img id="profilePic" src="./assets/imgs/pfp.jpg" alt="">
-</div>
-<div class="resname">
-        <h1 id="displayName">AWAIS TAHIR</h1>
-        <p id="displayJobTitle">FRONTEND DEVELOPER   </p>
-    </div>      
-    </div>
+<body>
 
-    <div class="Head">
-<div class="education">
-    <h1>EDUCATION</h1>
-<div class="educationContainer">
-    <h2 class="year"> 2014 - 2016</h2>
-    <p class="degree">Degree / Major Name</p>
-    <p class="uniName">University</p>
-</div>
+    <main>
+        <!-- Form to get user info -->
+        <form id="resumeForm">
 
-</div>
+            <label for="profilePicture">Profile Picture:</label>
+            <input type="file" id="profilePicture" accept="image/*">
+            <img id="preview" style="display: none;" alt="Profile Picture Preview">
 
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" required><br>
 
-<div class="skills">
-    <div id="skillTogle">
-        <h1>SKILLS</h1>
-        <img id="arrow1" src="./assets//imgs/arrow.png" alt="">
-    </div>
-    <ul class="skillfunc">
-        <li>Photoshop</li>
-        <li>Illustrator</li>
-        <li>InDesign</li>
-        <li>After Effects</li>
-    </ul>
-</div>
+            <label for="jobTitle">Job Title:</label>
+            <input type="text" id="jobTitle" name="jobTitle" required><br>
 
+            <label for="phone">Phone:</label>
+            <input type="number" name="" id="phone" required> <br>
 
-<div class="languages">
-    <div id="languageToggle">
-<h1>LANGUAGE</h1>
-           <img id="arrow2" src="./assets//imgs/arrow.png" alt="">
-    </div>
- 
-    <ul class="langfunc">
-        <li>English</li>
-        <li>French</li>
-        <li>Spanish</li>
-    </ul>
-</div>        
-    </div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br>
+            
+            <label for="adress">Address:</label> 
+            <input type="text" name="" id="adress" required><br>
+          
+            <!-- Skills Section -->
+            <label>Skills:</label>
+            <div id="skillsContainer">
+               <input type="text"  name="skills[]" placeholder="Enter a skill">
+                <button type="button" id="addSkillBtn">Add Skill</button>
+            </div>
+
+            <!-- Languages Section -->
+            <label>Languages:</label>
+            <div id="languagesContainer">
+                    <input type="text" name="lang[]" placeholder="Enter a language">
+                    <button type="button" id="addLanguageBtn">Add Language</button>
+            </div>
+          
+            <label for="experience">Profile:</label>
+            <textarea id="profile" name="profile"  required></textarea><br>
+
+            <label for="experience">Experience:</label>
+            <textarea id="experience" rows="4" name="experience" required></textarea><br>
 
 
-</div>
+            <div id="educationContainer">
+                <div class="educationEntry">
+                    <input type="text" placeholder="Degree/Major Name" name="educationDegree[]" />
+                    <input type="text" placeholder="University" name="educationUniversity[]" />
+                    <input type="text" placeholder="Year (e.g., 2014 - 2016)" name="educationYear[]" />
+                </div>
+                <button type="button" id="addEducationBtn">Add Education</button>
+            </div>
+             
+         
 
+            <button type="submit">Submit</button>
+        </form>
+    </main>
 
-<div class="right">
-<div class="name">
-    <h1 id="PCdisplayName">AWAIS TAHIR</h1>
-    <p id="PCdisplayJobTitle">FRONTEND DEVELOPER   </p>
-</div>
-
-<div class="contact">
-    <div class="imgs">
-     <img src="./assets/imgs/call.png" alt="">
-     <img src="./assets/imgs/email.png" alt="">
-     <img src="./assets/imgs/home.png" alt="">
-    </div>
-    <div class="values">
-    <p id="phoneNum">+000 111 222 3334</p>
-    <p id="displayEmail">urname@gmail.com</p>
-    <p id="address">Address here, Zip-0123</p>
-    </div>
-</div>
-
-<div class="profile">
-    <h1>PROFILE</h1>
-
-   <p id="profile">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus assumenda voluptates maiores sint eius nemo eaque et dolores voluptatum blanditiis, quae neque obcaecati aspernatur magni sunt perspiciatis corporis, similique nulla.</p>
-</div>
-
-<div class="resLayout">
-   <div class="experience">
-<h1>EXPERIENCE</h1>
-<div class="exp">
-    <p id="displayExperience">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni debitis ipsa aperiam iste quidem perspiciatis. Sapiente earum distinctio placeat soluta corrupti magni nobis neque deserunt nam iure, laborum totam reiciendis.</p> 
- 
- 
-</div>
-</div> 
-
-<div class="resHead">
-    <div class="education">
-        <h1>EDUCATION</h1>
-    <div class="educationContainer">
-        <h2 id="year"> 2014 - 2016</h2>
-        <p id="degree">Degree / Major Name</p>
-        <p id="uniName">University</p>
-    </div>
-    </div>
-    
-    
-    <div class="skills">
-        <div id="skillTogle">
-            <h1>SKILLS</h1>
-            <img id="arrow1" src="./assets//imgs/arrow.png" alt="">
-        </div>
-        <ul class="skillfunc">
-            <li>Photoshop</li>
-            <li>Illustrator</li>
-            <li>InDesign</li>
-            <li>After Effects</li>
-        </ul>
-    </div>
-    
-    
-    <div class="languages">
-        <div id="languageToggle">
-    <h1>LANGUAGE</h1>
-               <img id="arrow2" src="./assets//imgs/arrow.png" alt="">
-        </div>
-     
-        <ul class="langfunc">
-            <li>English</li>
-            <li>French</li>
-            <li>Spanish</li>
-        </ul>
-    </div>        
-        </div>
-</div>
-
-
-
-
-
-</div>
-</div>
-<button id="printBtn">Print Resume</button>
-<button id="editBtn">Edit</button>
-
-
-
-
-
-
-</main>
-<script src="/script.js"></script>
+    <script src="script.js"></script> <!-- Link to your JS/TS file -->
 </body>
 </html>

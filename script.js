@@ -1,136 +1,128 @@
 "use strict";
-const skill = document.querySelector('.skillfunc');
-const language = document.querySelector('.langfunc');
-const skillBtn = document.getElementById('skillTogle');
-const langBtn = document.getElementById('languageToggle');
-const arrow1 = document.getElementById('arrow1');
-const arrow2 = document.getElementById('arrow2');
-skillBtn.onclick = () => {
-    if (skill.style.display == 'none') {
-        skill.style.display = 'block';
-        arrow1.style.transform = 'rotate(180deg)';
+const form = document.getElementById('resumeForm');
+const skillButton = document.getElementById('addSkillBtn');
+let skillDiv = document.getElementById('skillsContainer');
+let removeButtonAdded = false;
+skillButton.onclick = () => {
+    const inp = document.createElement('input');
+    inp.setAttribute('placeholder', 'Enter a skill');
+    inp.setAttribute('name', 'skills[]');
+    inp.classList.add('newInput');
+    skillDiv.insertBefore(inp, skillButton);
+    if (!removeButtonAdded) {
+        const removeBtn = document.createElement('button');
+        let input = skillDiv.getElementsByTagName('input');
+        removeBtn.innerText = 'Remove Skill';
+        removeBtn.type = 'button';
+        skillDiv.append(removeBtn);
+        removeBtn.onclick = () => {
+            if (input.length > 1)
+                skillDiv.removeChild(input[input.length - 1]);
+        };
     }
     else {
-        skill.style.display = 'none';
-        arrow1.style.transform = 'rotate(0deg)';
+        return null;
     }
+    removeButtonAdded = true;
 };
-langBtn.onclick = () => {
-    if (language.style.display == 'none') {
-        language.style.display = 'block';
-        arrow2.style.transform = 'rotate(180deg)';
+const LangBtn = document.getElementById('addLanguageBtn');
+let LangDiv = document.getElementById('languagesContainer');
+let removButtonAdded = false;
+LangBtn.onclick = () => {
+    const langinp = document.createElement('input');
+    langinp.setAttribute('placeholder', 'Enter a language');
+    langinp.setAttribute('name', 'lang[]');
+    langinp.classList.add('newInput');
+    LangDiv.insertBefore(langinp, LangBtn);
+    console.log('Created Language Input:', langinp);
+    if (!removButtonAdded) {
+        const remvBtn = document.createElement('button');
+        let input = LangDiv.getElementsByTagName('input');
+        remvBtn.innerText = 'Remove Language';
+        remvBtn.type = 'button';
+        LangDiv.append(remvBtn);
+        remvBtn.onclick = () => {
+            if (input.length > 1)
+                LangDiv.removeChild(input[input.length - 1]);
+        };
     }
     else {
-        language.style.display = 'none';
-        arrow2.style.transform = 'rotate(0deg)';
+        return null;
     }
+    removButtonAdded = true;
 };
-const resumeData = JSON.parse(localStorage.getItem('resumeData') || '{}');
-document.getElementById('displayName').textContent = resumeData.fullName;
-document.getElementById('PCdisplayName').textContent = resumeData.fullName;
-document.getElementById('displayJobTitle').textContent = resumeData.jobTitle;
-document.getElementById('PCdisplayJobTitle').textContent = resumeData.jobTitle;
-document.getElementById('displayEmail').textContent = resumeData.email;
-document.getElementById('address').textContent = resumeData.address;
-document.getElementById('phoneNum').textContent = resumeData.phone;
-document.getElementById('profile').textContent = resumeData.profile;
-document.getElementById('displayExperience').textContent = resumeData.experience;
-console.log(resumeData.skills);
-console.log(resumeData.education[0].university);
-console.log(resumeData.languages);
-console.log('Resume Data:', resumeData);
-const skillsList = document.querySelectorAll('.skillfunc');
-if (skillsList) {
-    skillsList.forEach(languageList => {
-        languageList.innerHTML = '';
-        resumeData.skills.forEach((skill) => {
-            const li = document.createElement('li');
-            li.textContent = skill;
-            languageList.appendChild(li);
-        });
-    });
-}
-const languageList = document.querySelectorAll('.langfunc');
-if (languageList) {
-    languageList.forEach(languageList => {
-        languageList.innerHTML = '';
-        resumeData.languages.forEach((skill) => {
-            const li = document.createElement('li');
-            li.textContent = skill;
-            languageList.appendChild(li);
-        });
-    });
-}
-const educationContain = document.getElementsByClassName('educationContainer');
-Array.from(educationContain).forEach((element) => {
-    element.innerHTML = '';
+const addEducationButton = document.getElementById('addEducationBtn');
+const educationContainer = document.getElementById('educationContainer');
+addEducationButton.onclick = () => {
+    const educationEntry = document.createElement('div');
+    educationEntry.className = 'educationEntry';
+    const degreeInput = document.createElement('input');
+    degreeInput.placeholder = 'Degree/Major Name';
+    degreeInput.name = 'educationDegree[]';
+    const universityInput = document.createElement('input');
+    universityInput.placeholder = 'University';
+    universityInput.name = 'educationUniversity[]';
+    const yearInput = document.createElement('input');
+    yearInput.placeholder = 'Year (e.g., 2014 - 2016)';
+    yearInput.name = 'educationYear[]';
+    educationEntry.appendChild(degreeInput);
+    educationEntry.appendChild(universityInput);
+    educationEntry.appendChild(yearInput);
+    educationContainer.insertBefore(educationEntry, addEducationButton);
+};
+const fileInput = document.getElementById('profilePicture');
+const previewImg = document.getElementById('preview');
+fileInput.addEventListener('change', () => {
+    var _a;
+    const file = (_a = fileInput.files) === null || _a === void 0 ? void 0 : _a[0];
+    if (file) {
+        const imageUrl = URL.createObjectURL(file);
+        previewImg.src = imageUrl;
+        previewImg.style.display = 'block';
+        localStorage.setItem('profilePicture', imageUrl);
+    }
+    else {
+        previewImg.style.display = 'none';
+    }
 });
-resumeData.education.forEach((edu) => {
-    const eduElement = document.createElement('div');
-    eduElement.innerHTML = `
-        <h2><strong contentEditable= 'false'>Year:</strong> ${edu.year}</h2>
-        <p><strong contentEditable= 'false'>Degree:</strong> ${edu.degree}</p>
-        <p><strong contentEditable= 'false'>University:</strong> ${edu.university}</p>
-    `;
-    Array.from(educationContain).forEach((element) => {
-        element.appendChild(eduElement.cloneNode(true));
-    });
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const fullName = document.getElementById('fullName').value;
+    const jobTitle = document.getElementById('jobTitle').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('adress').value;
+    const email = document.getElementById('email').value;
+    const profile = document.getElementById('profile').value;
+    const experience = document.getElementById('experience').value;
+    const skillInputs = Array.from(document.querySelectorAll('input[name="skills[]"]'));
+    const skills = skillInputs.map(input => input.value);
+    console.log('Skills:', skills);
+    const languageInputs = Array.from(document.querySelectorAll('input[name="lang[]"]'));
+    const languages = languageInputs.map(input => input.value);
+    const degreeInputs = Array.from(document.querySelectorAll('input[name="educationDegree[]"]'));
+    const universityInputs = Array.from(document.querySelectorAll('input[name="educationUniversity[]"]'));
+    const yearInputs = Array.from(document.querySelectorAll('input[name="educationYear[]"]'));
+    const degrees = degreeInputs.map(input => input.value);
+    const universities = universityInputs.map(input => input.value);
+    const years = yearInputs.map(input => input.value);
+    let education = degrees.map((degree, index) => ({
+        degree,
+        university: universities[index],
+        year: years[index]
+    }));
+    const profilePicture = localStorage.getItem('profilePicture');
+    localStorage.setItem('resumeData', JSON.stringify({
+        fullName,
+        phone,
+        address,
+        email,
+        jobTitle,
+        skills,
+        languages,
+        profile,
+        experience,
+        education,
+        profilePicture
+    }));
+    window.location.href = 'Resume/Resume.html';
 });
-let isEditing = false;
-const editBtn = document.getElementById('editBtn');
-editBtn.onclick = () => {
-    isEditing = !isEditing;
-    if (isEditing) {
-        document.getElementById('displayName').contentEditable = 'true';
-        document.getElementById('displayJobTitle').contentEditable = 'true';
-        document.getElementById('PCdisplayName').contentEditable = 'true';
-        document.getElementById('PCdisplayJobTitle').contentEditable = 'true';
-        document.getElementById('displayEmail').contentEditable = 'true';
-        document.getElementById('address').contentEditable = 'true';
-        document.getElementById('phoneNum').contentEditable = 'true';
-        document.getElementById('profile').contentEditable = 'true';
-        document.getElementById('displayExperience').contentEditable = 'true';
-        document.querySelectorAll('.langfunc').forEach((element) => {
-            element.contentEditable = 'true';
-        });
-        document.querySelectorAll('.skillfunc').forEach((element) => {
-            element.contentEditable = 'true';
-        });
-        document.querySelectorAll('.educationContainer').forEach((element) => {
-            element.contentEditable = 'true';
-        });
-        document.getElementById('editBtn').textContent = 'save';
-    }
-    else {
-        document.getElementById('displayName').contentEditable = 'false';
-        document.getElementById('displayJobTitle').contentEditable = 'false';
-        document.getElementById('PCdisplayName').contentEditable = 'false';
-        document.getElementById('PCdisplayJobTitle').contentEditable = 'false';
-        document.getElementById('displayEmail').contentEditable = 'false';
-        document.getElementById('address').contentEditable = 'false';
-        document.getElementById('phoneNum').contentEditable = 'false';
-        document.getElementById('profile').contentEditable = 'false';
-        document.getElementById('displayExperience').contentEditable = 'false';
-        document.querySelectorAll('.langfunc').forEach((element) => {
-            element.contentEditable = 'false';
-        });
-        document.querySelectorAll('.skillfunc').forEach((element) => {
-            element.contentEditable = 'false';
-        });
-        document.querySelectorAll('.educationContainer').forEach((element) => {
-            element.contentEditable = 'false';
-        });
-        document.getElementById('editBtn').textContent = 'Edit';
-    }
-};
-const profilePic = document.getElementById('profilePic');
-if (profilePic) {
-    profilePic.src = resumeData.profilePicture;
-}
-const prnBtn = document.getElementById('printBtn');
-const editsBtn = document.getElementById('editBtn');
-prnBtn.onclick = () => {
-    prnBtn.style.display = 'none';
-    editsBtn.style.display = 'none';
-    print();
-};

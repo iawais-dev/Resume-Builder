@@ -1,186 +1,175 @@
-const skill = document.querySelector('.skillfunc') as HTMLElement
-const language = document.querySelector('.langfunc') as HTMLElement
-const skillBtn = document.getElementById('skillTogle') as HTMLElement
-const langBtn = document.getElementById('languageToggle') as HTMLElement
-const arrow1 = document.getElementById('arrow1') as HTMLElement
-const arrow2 = document.getElementById('arrow2') as HTMLElement
+// Get references to the form and resume elements
+const form = document.getElementById('resumeForm') as HTMLFormElement;
 
+//skillAddBtn Functionality:
 
-skillBtn.onclick = () => {
-   if( skill.style.display == 'none'){
-    skill.style.display = 'block'
-    arrow1.style.transform = 'rotate(180deg)';
-   }
-   else{
-skill.style.display = 'none'
-arrow1.style.transform = 'rotate(0deg)';
+const skillButton = document.getElementById('addSkillBtn') as HTMLElement
+let skillDiv = document.getElementById('skillsContainer') as HTMLElement
+let removeButtonAdded = false;
 
-   }
+skillButton.onclick = () => {
+    const inp = document.createElement('input');
+    inp.setAttribute('placeholder', 'Enter a skill')
+    inp.setAttribute('name', 'skills[]');
+    inp.classList.add('newInput')
+    skillDiv.insertBefore(inp, skillButton)
+    // localStorage.getItem('inp', skillDiv)
+
+    if (!removeButtonAdded) {
+        const removeBtn = document.createElement('button')
+        let input = skillDiv.getElementsByTagName('input')
+
+        removeBtn.innerText = 'Remove Skill'
+        removeBtn.type = 'button'
+        skillDiv.append(removeBtn)
+
+        removeBtn.onclick = () => {
+            if (input.length > 1)
+                skillDiv.removeChild(input[input.length - 1])
+        }
+
+    } else {
+        return null
+    }
+    removeButtonAdded = true
 }
 
-langBtn.onclick = () => {
-if(language.style.display == 'none'){
-  language.style.display = 'block'
-  arrow2.style.transform = 'rotate(180deg)';
-}
-else{
-language.style.display = 'none'
-arrow2.style.transform = 'rotate(0deg)';
-
-}
-}
+//language Functionallity :
+const LangBtn = document.getElementById('addLanguageBtn') as HTMLElement
+let LangDiv = document.getElementById('languagesContainer') as HTMLElement
+let removButtonAdded = false;
 
 
-const resumeData = JSON.parse(localStorage.getItem('resumeData') || '{}');
+LangBtn.onclick = () => {
+    const langinp = document.createElement('input');
+    langinp.setAttribute('placeholder', 'Enter a language')
+    langinp.setAttribute('name', 'lang[]');
+    langinp.classList.add('newInput')
+    LangDiv.insertBefore(langinp, LangBtn)
+    console.log('Created Language Input:', langinp);
 
 
-document.getElementById('displayName')!.textContent = resumeData.fullName;
-document.getElementById('PCdisplayName')!.textContent = resumeData.fullName;
-document.getElementById('displayJobTitle')!.textContent = resumeData.jobTitle;
-document.getElementById('PCdisplayJobTitle')!.textContent = resumeData.jobTitle;
+    if (!removButtonAdded) {
+        const remvBtn = document.createElement('button')
+        let input = LangDiv.getElementsByTagName('input')
 
-document.getElementById('displayEmail')!.textContent = resumeData.email;
-document.getElementById('address')!.textContent = resumeData.address;
-document.getElementById('phoneNum')!.textContent = resumeData.phone;
-document.getElementById('profile')!.textContent = resumeData.profile;
-document.getElementById('displayExperience')!.textContent = resumeData.experience;
+        remvBtn.innerText = 'Remove Language'
+        remvBtn.type = 'button'
+        LangDiv.append(remvBtn)
 
-console.log(resumeData.skills)
-console.log(resumeData.education[0].university)
-console.log(resumeData.languages)
-console.log('Resume Data:', resumeData);
+        remvBtn.onclick = () => {
+            if (input.length > 1)
+                LangDiv.removeChild(input[input.length - 1])
+        }
 
-
-
-const skillsList = document.querySelectorAll('.skillfunc');
-if (skillsList) {
-    skillsList.forEach(languageList => {
-        // Clear existing items
-        (languageList as HTMLElement).innerHTML = '';
-
-        // Add new items from resumeData.languages
-        resumeData.skills.forEach((skill: string) => {
-            const li = document.createElement('li');
-            li.textContent = skill;
-            (languageList as HTMLElement).appendChild(li);
-        });
-    });
+    } else {
+        return null
+    }
+    removButtonAdded = true
 }
 
+//education functionality:
+const addEducationButton = document.getElementById('addEducationBtn') as HTMLElement;
+const educationContainer = document.getElementById('educationContainer') as HTMLElement;
 
+addEducationButton.onclick = () => {
+    const educationEntry = document.createElement('div');
+    educationEntry.className = 'educationEntry';
 
+    const degreeInput = document.createElement('input');
+    degreeInput.placeholder = 'Degree/Major Name';
+    degreeInput.name = 'educationDegree[]';
 
-const languageList = document.querySelectorAll('.langfunc') ;
-if (languageList) {
-    languageList.forEach(languageList => {
-        // Clear existing items
-        (languageList as HTMLElement).innerHTML = '';
+    const universityInput = document.createElement('input');
+    universityInput.placeholder = 'University';
+    universityInput.name = 'educationUniversity[]';
 
-        // Add new items from resumeData.languages
-        resumeData.languages.forEach((skill: string) => {
-            const li = document.createElement('li');
-            li.textContent = skill;
-            (languageList as HTMLElement).appendChild(li);
-        });
-    });
-}
+    const yearInput = document.createElement('input');
+    yearInput.placeholder = 'Year (e.g., 2014 - 2016)';
+    yearInput.name = 'educationYear[]';
 
+    educationEntry.appendChild(degreeInput);
+    educationEntry.appendChild(universityInput);
+    educationEntry.appendChild(yearInput);
 
-
-
-
-//education:
-
-const educationContain = document.getElementsByClassName('educationContainer') as HTMLCollectionOf<HTMLElement>;
-
-
-Array.from(educationContain).forEach((element) => {
-    element.innerHTML = ''; // Clear each element
-});
-
-
-resumeData.education.forEach((edu: { degree: string, university: string, year: string }) => {
-    const eduElement = document.createElement('div'); // Create a new div 
-
-    eduElement.innerHTML = `
-        <h2><strong contentEditable= 'false'>Year:</strong> ${edu.year}</h2>
-        <p><strong contentEditable= 'false'>Degree:</strong> ${edu.degree}</p>
-        <p><strong contentEditable= 'false'>University:</strong> ${edu.university}</p>
-    `;
-
-    // Append the new div to each element with the 'educationContainer' class
-    Array.from(educationContain).forEach((element) => {
-        element.appendChild(eduElement.cloneNode(true)); // Clone the new element for each container
-    });
-});
-
-
-//Edit functionality:
-let isEditing = false;
-
-const editBtn = document.getElementById('editBtn') as HTMLElement;
-
-editBtn.onclick = () => {
-  isEditing = !isEditing;
-
-  if (isEditing) {
-    // Set contentEditable to true for editing mode
-    document.getElementById('displayName')!.contentEditable = 'true';
-    document.getElementById('displayJobTitle')!.contentEditable = 'true';
-    document.getElementById('PCdisplayName')!.contentEditable = 'true';
-    document.getElementById('PCdisplayJobTitle')!.contentEditable = 'true';
-    document.getElementById('displayEmail')!.contentEditable = 'true';
-    document.getElementById('address')!.contentEditable = 'true';
-    document.getElementById('phoneNum')!.contentEditable = 'true';
-    document.getElementById('profile')!.contentEditable = 'true';
-    document.getElementById('displayExperience')!.contentEditable = 'true';
-    document.querySelectorAll('.langfunc').forEach((element)=>{
-        (element as HTMLElement).contentEditable = 'true';
-    })
-    document.querySelectorAll('.skillfunc').forEach((element)=>{
-        (element as HTMLElement).contentEditable = 'true';
-    });
-    document.querySelectorAll('.educationContainer').forEach((element)=>{
-        (element as HTMLElement).contentEditable = 'true';
-    });
-
-   ( document.getElementById('editBtn')as HTMLElement).textContent = 'save';
-
-  } else {
-    // Set contentEditable to false for view mode
-    document.getElementById('displayName')!.contentEditable = 'false';
-    document.getElementById('displayJobTitle')!.contentEditable = 'false';
-    document.getElementById('PCdisplayName')!.contentEditable = 'false';
-    document.getElementById('PCdisplayJobTitle')!.contentEditable = 'false';
-    document.getElementById('displayEmail')!.contentEditable = 'false';
-    document.getElementById('address')!.contentEditable = 'false';
-    document.getElementById('phoneNum')!.contentEditable = 'false';
-    document.getElementById('profile')!.contentEditable = 'false';
-    document.getElementById('displayExperience')!.contentEditable = 'false';
-    document.querySelectorAll('.langfunc').forEach((element)=>{
-        (element as HTMLElement).contentEditable = 'false';
-    })
-    document.querySelectorAll('.skillfunc').forEach((element)=>{
-        (element as HTMLElement).contentEditable = 'false';
-    });
-    document.querySelectorAll('.educationContainer').forEach((element)=>{
-        (element as HTMLElement).contentEditable = 'false';
-    });
-
-    ( document.getElementById('editBtn')as HTMLElement).textContent = 'Edit';
-  }
+    educationContainer.insertBefore(educationEntry, addEducationButton);
 };
 
 //pfp:
-const profilePic = document.getElementById('profilePic') as HTMLImageElement;
-if(profilePic){
-    profilePic.src = resumeData.profilePicture
-}
+const fileInput = document.getElementById('profilePicture') as HTMLInputElement;
+const previewImg = document.getElementById('preview') as HTMLImageElement;
 
-const prnBtn = document.getElementById('printBtn') as HTMLElement;
-const editsBtn = document.getElementById('editBtn') as HTMLElement;
-prnBtn.onclick = ()=>{
-  prnBtn.style.display = 'none'  
-  editsBtn.style.display = 'none'  
-  print()
-}
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files?.[0];
+  if (file) {
+    // Create a URL for the file
+    const imageUrl  = URL.createObjectURL(file)
+    previewImg.src = imageUrl;
+    previewImg.style.display = 'block';
+
+    localStorage.setItem('profilePicture', imageUrl);
+  } else {
+    previewImg.style.display = 'none'; 
+  }
+});
+
+
+
+form.addEventListener('submit', (event: Event) => {
+    event.preventDefault(); 
+
+    // Get form values
+    const fullName = (document.getElementById('fullName') as HTMLInputElement).value;
+    const jobTitle = (document.getElementById('jobTitle') as HTMLInputElement).value;
+    const phone = (document.getElementById('phone') as HTMLInputElement).value;
+    const address = (document.getElementById('adress') as HTMLInputElement).value;
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+    const profile = (document.getElementById('profile') as HTMLTextAreaElement).value;
+    const experience = (document.getElementById('experience') as HTMLTextAreaElement).value;
+
+
+
+    const skillInputs = Array.from(document.querySelectorAll('input[name="skills[]"]')) as HTMLInputElement[];
+    const skills = skillInputs.map(input => input.value);
+    console.log('Skills:', skills);
+
+    const languageInputs = Array.from(document.querySelectorAll('input[name="lang[]"]')) as HTMLInputElement[];
+    const languages = languageInputs.map(input => input.value);
+
+    const degreeInputs = Array.from(document.querySelectorAll('input[name="educationDegree[]"]')) as HTMLInputElement[];
+    const universityInputs = Array.from(document.querySelectorAll('input[name="educationUniversity[]"]')) as HTMLInputElement[];
+    const yearInputs = Array.from(document.querySelectorAll('input[name="educationYear[]"]')) as HTMLInputElement[];
+
+    // Map over the input elements and get their values
+    const degrees = degreeInputs.map(input => input.value);
+    const universities = universityInputs.map(input => input.value);
+    const years = yearInputs.map(input => input.value);
+
+
+    let education = degrees.map((degree, index) => ({
+        degree,
+        university: universities[index],
+        year: years[index]
+    }));
+
+
+    const profilePicture = localStorage.getItem('profilePicture');
+
+
+    localStorage.setItem('resumeData', JSON.stringify({
+        fullName,
+        phone,
+        address,
+        email,
+        jobTitle,
+        skills,
+        languages,
+        profile,
+        experience,
+        education,
+        profilePicture
+    }));
+
+    // Redirect to the resume page
+    window.location.href = 'Resume/Resume.html';
+});
