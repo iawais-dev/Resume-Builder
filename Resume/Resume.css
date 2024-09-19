@@ -227,10 +227,26 @@ height: 15px;
 
 @media print {
  
-  #resume  {
+  /* #resume  {
     display: flex !important;
     width: 550px;
+  } */
+  body * {
+    visibility: hidden;
   }
+  #resume, #resume * {
+    visibility: visible;
+  }
+  #resume {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+  }
+
+
   }
 
 #editBtn{
