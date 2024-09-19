@@ -215,7 +215,6 @@ function setupShareableLink() {
         copyLinkBtn.onclick = () => {
           hiddenInput.select();
           document.execCommand('copy');
-          document.body.removeChild(hiddenInput);
           alert('Link copied to clipboard!');
         };
       }
