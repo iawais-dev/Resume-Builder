@@ -256,8 +256,19 @@ height: 15px;
     margin-top: 10px;
     box-shadow: 0px 10px 40px 5px gray;
    transition: all .2s;
-   margin-bottom: 60px;
   }
   #editBtn:hover {
+    scale: 1.5;
+}
+#copyLinkBtn{
+    padding: 20px;
+    border-radius: 15px;
+    border: none;
+    margin-top: 10px;
+    box-shadow: 0px 10px 40px 5px gray;
+   transition: all .2s;
+   margin-bottom: 60px;
+  }
+  #copyLinkBtn:hover {
     scale: 1.5;
 }

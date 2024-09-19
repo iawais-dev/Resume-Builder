@@ -142,3 +142,31 @@ window.onafterprint = () => {
     prnBtn.style.display = 'block';
     editsBtn.style.display = 'block';
 };
+function setupShareableLink() {
+    var _a;
+    const displayNameElement = document.getElementById('displayName');
+    const username = ((_a = displayNameElement.textContent) === null || _a === void 0 ? void 0 : _a.trim()) || '';
+    if (username) {
+        const baseUrl = window.location.origin;
+        const shareableLink = `${baseUrl}/resume?user=${encodeURIComponent(username)}`;
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'text';
+        hiddenInput.value = shareableLink;
+        hiddenInput.style.position = 'absolute';
+        hiddenInput.style.left = '-9999px';
+        document.body.appendChild(hiddenInput);
+        if (copyLinkBtn) {
+            copyLinkBtn.onclick = () => {
+                hiddenInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(hiddenInput);
+                alert('Link copied to clipboard!');
+            };
+        }
+    }
+    else {
+        console.error('Username is empty or undefined');
+    }
+}
+window.onload = setupShareableLink;

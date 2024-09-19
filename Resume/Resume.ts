@@ -195,3 +195,42 @@ window.onafterprint = () => {
   prnBtn.style.display = 'block';
   editsBtn.style.display = 'block';
 };
+
+
+//shareAble Links:
+function setupShareableLink() {
+    const displayNameElement = document.getElementById('displayName') as HTMLElement;
+    const username = displayNameElement.textContent?.trim() || '';
+  
+    if (username) {
+      const baseUrl = window.location.origin;
+      const shareableLink = `${baseUrl}/resume?user=${encodeURIComponent(username)}`;
+
+  
+      const copyLinkBtn = document.getElementById('copyLinkBtn') as HTMLElement;
+  
+      // Create a hidden input element to store the shareable link for copying
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'text';
+      hiddenInput.value = shareableLink;
+      hiddenInput.style.position = 'absolute'; // Ensure it's off-screen
+      hiddenInput.style.left = '-9999px'; // Off-screen positioning
+      document.body.appendChild(hiddenInput);
+  
+      if (copyLinkBtn) {
+        copyLinkBtn.onclick = () => {
+          hiddenInput.select();
+          document.execCommand('copy');
+          document.body.removeChild(hiddenInput);
+          alert('Link copied to clipboard!');
+        };
+  
+
+      }
+    } else {
+      console.error('Username is empty or undefined');
+    }
+  }
+  
+  // Call setupShareableLink when the page loads and resume data is set
+  window.onload = setupShareableLink;
