@@ -256,6 +256,7 @@ height: 15px;
     margin-top: 10px;
     box-shadow: 0px 10px 40px 5px gray;
    transition: all .2s;
+   margin-bottom: 60px;
   }
   #editBtn:hover {
     scale: 1.5;
