@@ -5,6 +5,8 @@ const langBtn = document.getElementById('languageToggle') as HTMLElement
 const arrow1 = document.getElementById('arrow1') as HTMLElement
 const arrow2 = document.getElementById('arrow2') as HTMLElement
 
+const params = new URLSearchParams(window.location.search);
+const username = params.get('user');
 
 skillBtn.onclick = () => {
    if( skill.style.display == 'none'){
@@ -191,30 +193,22 @@ prnBtn.onclick = () => {
 };
 
 // Listen for the `afterprint` event to restore buttons
-window.onafterprint = () => {
-  prnBtn.style.display = 'block';
-  editsBtn.style.display = 'block';
-};
-
-
-//shareAble Links:
 function setupShareableLink() {
     const displayNameElement = document.getElementById('displayName') as HTMLElement;
     const username = displayNameElement.textContent?.trim() || '';
   
     if (username) {
-      const baseUrl = window.location.origin;
-      const shareableLink = `${baseUrl}/resume?user=${encodeURIComponent(username)}`;
-
-  
+        const baseUrl = window.location.origin; // E.g., https://www.example.com
+        const shareableLink = `${baseUrl}/Resume/Resume.html?user=${encodeURIComponent(username)}`;
+        
+ console.log(shareableLink)
       const copyLinkBtn = document.getElementById('copyLinkBtn') as HTMLElement;
   
-      // Create a hidden input element to store the shareable link for copying
       const hiddenInput = document.createElement('input');
       hiddenInput.type = 'text';
       hiddenInput.value = shareableLink;
-      hiddenInput.style.position = 'absolute'; // Ensure it's off-screen
-      hiddenInput.style.left = '-9999px'; // Off-screen positioning
+      hiddenInput.style.position = 'absolute';
+      hiddenInput.style.left = '-9999px';
       document.body.appendChild(hiddenInput);
   
       if (copyLinkBtn) {
@@ -224,13 +218,10 @@ function setupShareableLink() {
           document.body.removeChild(hiddenInput);
           alert('Link copied to clipboard!');
         };
-  
-
       }
     } else {
       console.error('Username is empty or undefined');
     }
-  }
+}
   
-  // Call setupShareableLink when the page loads and resume data is set
-  window.onload = setupShareableLink;
+window.onload = setupShareableLink;

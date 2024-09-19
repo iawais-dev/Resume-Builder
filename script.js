@@ -124,5 +124,5 @@ form.addEventListener('submit', (event) => {
         education,
         profilePicture
     }));
-    window.location.href = 'Resume/Resume.html';
+    window.location.href = `Resume/Resume.html?user=${fullName}`;
 });

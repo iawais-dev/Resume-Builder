@@ -5,6 +5,8 @@ const skillBtn = document.getElementById('skillTogle');
 const langBtn = document.getElementById('languageToggle');
 const arrow1 = document.getElementById('arrow1');
 const arrow2 = document.getElementById('arrow2');
+const params = new URLSearchParams(window.location.search);
+const username = params.get('user');
 skillBtn.onclick = () => {
     if (skill.style.display == 'none') {
         skill.style.display = 'block';
@@ -138,17 +140,14 @@ prnBtn.onclick = () => {
         print();
     }
 };
-window.onafterprint = () => {
-    prnBtn.style.display = 'block';
-    editsBtn.style.display = 'block';
-};
 function setupShareableLink() {
     var _a;
     const displayNameElement = document.getElementById('displayName');
     const username = ((_a = displayNameElement.textContent) === null || _a === void 0 ? void 0 : _a.trim()) || '';
     if (username) {
         const baseUrl = window.location.origin;
-        const shareableLink = `${baseUrl}/resume?user=${encodeURIComponent(username)}`;
+        const shareableLink = `${baseUrl}/Resume/Resume.html?user=${encodeURIComponent(username)}`;
+        console.log(shareableLink);
         const copyLinkBtn = document.getElementById('copyLinkBtn');
         const hiddenInput = document.createElement('input');
         hiddenInput.type = 'text';

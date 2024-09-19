@@ -171,5 +171,7 @@ form.addEventListener('submit', (event: Event) => {
     }));
 
     // Redirect to the resume page
-    window.location.href = 'Resume/Resume.html';
+    // window.location.href = 'Resume/Resume.html';
+    // const username = encodeURIComponent(fullName);
+    window.location.href = `Resume/Resume.html?user=${fullName}`;
 });
